@@ -1,39 +1,53 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let Admin = new Schema({
-    fname: {
-        type: String
-    },
-    lname: {
-        type: String
-    },
-    email: {
-        type: String
-    },
-    password: {
-        type: String
-    },
-    salt: {
-        type: String
-    },
-    profilepic: {
-        type: String
-    },
-    gender: {
-        type: String
-    },
-    cn: {
-        type: String
-    },
-    created_at: {
-        type: Date, default: Date.now()
-    },
-    type: {
+let Lecturer = new Schema({
+
+
+
+    name: {
         type: String,
-        default: "admin"
-    }
+        unique: true
+
+    },
+    empId: {
+        type: String,
+        unique: true
+
+    },
+    faculty: {
+        type: String,
+
+    },
+    department: {
+        type: String,
+
+    },
+    center: {
+        type: String,
+
+    },
+    building: {
+        type: String,
+
+
+    },
+    level: {
+        type: Number,
+
+    },
+    rank: {
+        type: String,
+
+
+
+    },
+    image: {
+        type: String,
+
+    },
+
+
 
 });
-module.exports = mongoose.model('admin', Admin);
-// in this 'exsample' - exsample should be collection name
+module.exports = mongoose.model('lecturer', Lecturer);

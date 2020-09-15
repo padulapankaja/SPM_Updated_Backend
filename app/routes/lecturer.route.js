@@ -12,32 +12,19 @@ const lecturerController = require('../controllers/lecturer.controller');
 //===================================  POST REQUEST       ==============================================
 //====================================================================================================== 
 // admin register
-router.post('/ad/s/am',  adminController.registerSuperAdmin);
+router.post('/add', lecturerController.add_lecturer);
+router.post("/edit", lecturerController.edit_lecturer);
+// Delete Lecturer
+router.post("/delete", lecturerController.delete_lecturer);
+
+
+router.get("/all", lecturerController.get_all);
+
+
+router.get("/:id", lecturerController.get_specific_lecturer);
+
+router.post("/filter", lecturerController.get_filtered);
 
 
 //export router
 module.exports = router
-
-
-
-
-
-
-// admin user details
-
-// {
-//     "firstname": "padula",
-//     "lastname": "guruge",
-//     "useremail": "admin@gmail.com",
-//     "password": "3e7b5eeb847c9b359284274aefa78e4be9723f2301231343966a3de12c9999de",
-//     "salt":"ok9ccKo9K9FWzLCcFVCL"
-// }
-
-
-// requset
-
-// {
-// 	"uEmail" : "admin@gmail.com",
-// 	"uPass" : "3e7b5eeb847c9b359284274aefa78e4be9723f2301231343966a3de12c9999de",
-// 	"keepme" : true
-// }
