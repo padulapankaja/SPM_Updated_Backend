@@ -15,8 +15,9 @@ const MongoClient = require("mongodb").MongoClient;
 //======================================================================================================
 
 const lecturerRoute = require("./app/routes/lecturer.route");
-
-
+const buildingRoute = require("./app/routes/building.route");
+const roomRoute = require("./app/routes/room.route");
+const statsRoute = require("./app/routes/stats.route");
 
 //======================================================================================================
 //===================================import config files ===============================================
@@ -40,7 +41,9 @@ mongoose.set("useCreateIndex", true);
 
 //user routes
 app.use("/api/lecturer", lecturerRoute);
-
+app.use("/api/buildings", buildingRoute);
+app.use("/api/rooms", roomRoute);
+app.use("/api/stats", statsRoute);
 
 //======================================================================================================
 //================================== Handlle Error     ===========================================
