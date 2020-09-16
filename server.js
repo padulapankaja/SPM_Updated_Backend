@@ -15,6 +15,7 @@ const MongoClient = require("mongodb").MongoClient;
 //======================================================================================================
 
 const lecturerRoute = require("./app/routes/lecturer.route");
+const subjectRoute = require("./app/routes/subject.route");
 
 
 
@@ -40,6 +41,7 @@ mongoose.set("useCreateIndex", true);
 
 //user routes
 app.use("/api/lecturer", lecturerRoute);
+app.use("/api/subject", subjectRoute);
 
 
 //======================================================================================================
