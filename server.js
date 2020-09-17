@@ -15,7 +15,9 @@ const MongoClient = require("mongodb").MongoClient;
 //======================================================================================================
 
 const lecturerRoute = require("./app/routes/lecturer.route");
-
+const GenerateSubGroupIdRoute = require("./app/routes/generateSubgroup.route");
+const StudentRoute = require("./app/routes/student.route");
+const TagRoute = require("./app/routes/Tag.route");
 
 
 //======================================================================================================
@@ -40,6 +42,9 @@ mongoose.set("useCreateIndex", true);
 
 //user routes
 app.use("/api/lecturer", lecturerRoute);
+app.use("/api/GenerateSubGroup", GenerateSubGroupIdRoute);
+app.use("/api/student", StudentRoute);
+app.use("/api/tag", TagRoute);
 
 
 //======================================================================================================
