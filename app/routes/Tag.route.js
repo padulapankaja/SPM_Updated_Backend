@@ -21,7 +21,7 @@ const Tag = require('../controllers/Tag.controller');
   router.post('/update' , Tag.update );
 
 //   //Delete selected group
-//   router.delete('/delete/:id' , tag.delete );
+  router.delete('/delete/:id' , Tag.delete );
 
 //       //get one building
       router.get('/getOne/:id', Tag.getOne);
