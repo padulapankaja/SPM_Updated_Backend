@@ -82,26 +82,58 @@ exports.update = async (req, res) => {
 
 }
 
-
 exports.delete = async (req, res) => {
 
-    console.log(req.body);
-    // if (req.body.empId == null || req.body.empId == undefined) {
-    //     return  res.status(400).send({
-    //         message: "Content can not be empty!"
-    //     });
-    // }
-    var result = await Student.findOneAndDelete({id: req.body.id})
-    if (!result) {
-      return  res.status(400).send({
-            message: "No Found"
+    console.log(req.params.id);
+    
+    if (req.params.id == null || req.params.id == undefined) {
+        res.status(400).send({
+            message: "Content can not be empty!"
         });
+        return;
     }
-    return res.status(200).send({
-        message: "Deleted success"
-    });
+    
+    Student.findOneAndDelete({ _id: req.params.id })
+    .then( result => {
 
+        if (!result) {
+            throw new Error('No record found')
+        }
+
+        res.status(200).send({
+            message: "Deleted successfully"
+        });
+    
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while deleting the data."
+        });
+    });   
+   
 }
+
+
+// exports.delete = async (req, res) => {
+
+//     console.log(req.body);
+//     // if (req.body.empId == null || req.body.empId == undefined) {
+//     //     return  res.status(400).send({
+//     //         message: "Content can not be empty!"
+//     //     });
+//     // }
+//     var result = await Student.findOneAndDelete({id: req.body._id})
+//     if (!result) {
+//       return  res.status(400).send({
+//             message: "No Found"
+//         });
+//     }
+//     return res.status(200).send({
+//         message: "Deleted success"
+//     });
+
+// }
 
 exports.get = async (req, res) => {
 
@@ -120,7 +152,6 @@ exports.get = async (req, res) => {
 
 }
 
-
 exports.getOne = async (req, res) => {
 
     console.log(req.params.id);
@@ -137,73 +168,5 @@ exports.getOne = async (req, res) => {
         })
     }
 }
-
-
-
-// exports.get_filtered = async (req, res) => {
-
-//     console.log(req.body);
-//     var word = req.body.word;
-//     var column
-//     var whe = {
-//         faculty: word
-//     }
-//     if (req.body.filed == "name") {
-//         column = "name"
-//         whe = {
-//             name: word
-//         }
-//     }
-//     else if (req.body.filed == "employeeId") {
-//         column = "empId"
-//         whe = {
-//             empId: word
-//         }
-//     }
-//     else if (req.body.filed == "faculty") {
-//         column = "faculty"
-//         whe = {
-//             faculty: word
-//         }
-//     }
-//     else if (req.body.filed == "department") {
-//         column = "department"
-//         whe = {
-//             department: word
-//         }
-//     }
-//     else if (req.body.filed == "center") {
-//         column = "center"
-//         whe = {
-//             center: word
-//         }
-//     }
-//     else if (req.body.filed == "building") {
-//         column = "building"
-//         whe = {
-//             building: word
-//         }
-//     }
-//     else if (req.body.filed == "level") {
-//         column = "level"
-//         whe = {
-//             level: word
-//         }
-//     }
-//     console.log(column);
-//     console.log(word);
-
-//     try {
-//         const lecturer = await Lecturer.find( whe );
-//         return res.status(200).send({
-//             data: lecturer
-//         })
-//     } catch (error) {
-//         return res.status(401).send({
-//             error: error
-//         })
-//     }
-
-// }
 
 

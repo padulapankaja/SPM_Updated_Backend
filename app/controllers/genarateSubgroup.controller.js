@@ -74,26 +74,58 @@ exports.update = async (req, res) => {
 
 }
 
-
 exports.delete = async (req, res) => {
 
-    console.log(req.body);
-    // if (req.body.empId == null || req.body.empId == undefined) {
-    //     return  res.status(400).send({
-    //         message: "Content can not be empty!"
-    //     });
-    // }
-    var result = await GenerateSubGroup.findOneAndDelete({id: req.body.id})
-    if (!result) {
-      return  res.status(400).send({
-            message: "No Found"
+    console.log(req.params.id);
+    
+    if (req.params.id == null || req.params.id == undefined) {
+        res.status(400).send({
+            message: "Content can not be empty!"
         });
+        return;
     }
-    return res.status(200).send({
-        message: "Deleted success"
-    });
+    
+    GenerateSubGroup.findOneAndDelete({ _id: req.params.id })
+    .then( result => {
 
+        if (!result) {
+            throw new Error('No record found')
+        }
+
+        res.status(200).send({
+            message: "Deleted successfully"
+        });
+    
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while deleting the data."
+        });
+    });   
+   
 }
+
+
+// exports.delete = async (req, res) => {
+
+//     console.log(req.body);
+//     // if (req.body.empId == null || req.body.empId == undefined) {
+//     //     return  res.status(400).send({
+//     //         message: "Content can not be empty!"
+//     //     });
+//     // }
+//     var result = await GenerateSubGroup.findOneAndDelete({id: req.body.id})
+//     if (!result) {
+//       return  res.status(400).send({
+//             message: "No Found"
+//         });
+//     }
+//     return res.status(200).send({
+//         message: "Deleted success"
+//     });
+
+// }
 
 exports.get = async (req, res) => {
     try {
