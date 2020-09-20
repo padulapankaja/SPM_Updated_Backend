@@ -125,7 +125,9 @@ exports.get_all = async (req, res) => {
     }
 
 }
-exports.get_specific_lecturer = async (req, res) => {
+
+
+exports.get_specific_subject = async (req, res) => {
 
     console.log(req.params);
 

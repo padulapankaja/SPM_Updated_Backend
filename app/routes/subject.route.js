@@ -22,7 +22,7 @@ router.get("/all", subjectController.get_all);
 
 
 
-// router.get("/:id", subjectController.get_specific_subject);
+router.get("/:id", subjectController.get_specific_subject);
 router.post("/filter", subjectController.get_filtered);
 
 

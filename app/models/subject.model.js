@@ -25,17 +25,17 @@ let Subject = new Schema({
         unique: true
     },
     lechours: {
-        type: Number,
+        type: String,
     },
     tutehours: {
-        type: Number,
+        type: String,
 
     },
     labhours: {
-        type: Number,
+        type: String,
     },
     evaluationhour: {
-        type: Number,
+        type: String,
 
     },
 
