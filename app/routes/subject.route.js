@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const subjectController = require('../controllers/subject.controller');
 
 // test 
@@ -13,9 +14,9 @@ const subjectController = require('../controllers/subject.controller');
 //====================================================================================================== 
 // Create a new subject
 router.post("/add", subjectController.add_subject);
-// Edit subject
+// // Edit subject
 router.post("/edit", subjectController.edit_subject);
-// Delete subject
+// // Delete subject
 router.post("/delete", subjectController.delete_subject);
 router.get("/all", subjectController.get_all);
 
