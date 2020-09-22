@@ -17,8 +17,8 @@ const MongoClient = require("mongodb").MongoClient;
 const lecturerRoute = require("./app/routes/lecturer.route");
 
 const subjectRoute = require("./app/routes/subject.route");
-
-
+const ConSession = require("./app/routes/conSession.route");
+const ParallelRoute = require("./app/routes/parallel.route");
 
 const buildingRoute = require("./app/routes/building.route");
 const roomRoute = require("./app/routes/room.route");
@@ -50,9 +50,9 @@ mongoose.set("useCreateIndex", true);
 
 //user routes
 app.use("/api/lecturer", lecturerRoute);
-
+app.use("/api/parallel", ParallelRoute);
 app.use("/api/subject", subjectRoute);
-
+app.use("/api/consession", ConSession);
 app.use("/api/buildings", buildingRoute);
 app.use("/api/rooms", roomRoute);
 app.use("/api/stats", statsRoute);
