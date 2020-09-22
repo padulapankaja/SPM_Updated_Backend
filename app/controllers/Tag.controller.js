@@ -24,21 +24,21 @@ exports.add = async (req, res) => {
     // }
 
 
-    let new_lecturer = Tag({
+    let newTag = Tag({
         name: req.body.name,
     });
     // Save Tutorial in the database
     try {
-        Tag.find({ name: new_lecturer.name }, function (err, docs) {
+        Tag.find({ name: newTag.name }, function (err, docs) {
             // if (docs.length == 0) {
                 //save 
-                new_lecturer.save(function (err) {
+                newTag.save(function (err) {
                     if (err) {
                         return err;
                     }
                     console.log("New user register");
 
-                    return res.status(201).send(new_lecturer);
+                    return res.status(201).send(newTag);
                 })
             // } else {
             //     return res.status(403).send('Already have')

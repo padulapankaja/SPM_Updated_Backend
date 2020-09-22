@@ -5,7 +5,7 @@ let Tag = new Schema({
     
     name: {
         type: String,
-        unique: true
+        
 
     },
 
