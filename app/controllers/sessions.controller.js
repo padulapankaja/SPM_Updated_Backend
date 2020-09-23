@@ -72,36 +72,58 @@ exports.all_info = async (req, res) => {
 
 
 
-exports.get_all_sessions = async (req, res) => {
+exports.get_all_sessions = (req, res) => {
+    Sessions.aggregate([
+        {
+            $lookup: {
+                from: "lecturers", // collection name in db
+                localField: "lecturer",
+                foreignField: "_id",
+                as: "lecturer"
+            }
+        },
+        {
+            $lookup: {
+                from: "tags", // collection name in db
+                localField: "tag",
+                foreignField: "_id",
+                as: "tag"
+            }
+        },
+        {
+            $lookup: {
+                from: "subjects", // collection name in db
+                localField: "subject",
+                foreignField: "_id",
+                as: "subject"
+            }
+        },
+        {
+            $lookup: {
+                from: "students", // collection name in db
+                localField: "group",
+                foreignField: "_id",
+                as: "group"
+            }
+        },
+        {
+            $project: {
+                lecturer: { $arrayElemAt: ["$lecturer", 0], },
+                tag: { $arrayElemAt: ["$tag", 0] },
+                subject: { $arrayElemAt: ["$subject", 0] },
+                group: { $arrayElemAt: ["$group", 0] },
+                no_of_students: 1,
+                duration: 1,
+            }
+        }
+    ]).exec(function (err, result) {
+        if (err) { return next(err) }
 
-
-
-    try {
-        const sessions = await Sessions.find({});
-        
-        // const length = await Sessions.find({}).countDocuments()
-
-        // var sessions = []
-
-        // var sessionObje = {
-        //     sess
-        // }
-        // for (let index = 0; index <= length; index++) {
-        //     const element = array[index];
-
-
-            
-        // }
-
-        return res.status(200).send({
-            sessions
+        res.status(200).send({
+            result
         })
-    } catch (error) {
-        console.log(error);
-        return res.status(401).send({
-            error: error
-        })
-    }
+
+    });
 
 }
 
