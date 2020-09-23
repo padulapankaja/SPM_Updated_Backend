@@ -8,10 +8,8 @@ exports.add = async (req, res) => {
     console.log("menna meka",req.body);
 
     let newConSession = ConSessions({
-        id: req.body.id,
         ConSession : req.body.ConSession,
     });
-    console.log("subgroup_ID : " , newConSession.subgroup_ID);
     // Save Tutorial in the database
     try {
         ConSessions.findOne({ id: newConSession.id }, function (err, docs) {
@@ -69,38 +67,37 @@ exports.add = async (req, res) => {
 
 
 // }
+exports.delete = async (req, res) => {
 
-// exports.delete = async (req, res) => {
-
-//     console.log(req.params.id);
+    console.log(req.params.id);
     
-//     if (req.params.id == null || req.params.id == undefined) {
-//         res.status(400).send({
-//             message: "Content can not be empty!"
-//         });
-//         return;
-//     }
+    if (req.params.id == null || req.params.id == undefined) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+        return;
+    }
     
-//     ConSessions.findOneAndDelete({ _id: req.params.id })
-//     .then( result => {
+    ConSessions.findOneAndDelete({ _id: req.params.id })
+    .then( result => {
 
-//         if (!result) {
-//             throw new Error('No record found')
-//         }
+        if (!result) {
+            throw new Error('No record found')
+        }
 
-//         res.status(200).send({
-//             message: "Deleted successfully"
-//         });
+        res.status(200).send({
+            message: "Deleted successfully"
+        });
     
-//     })
-//     .catch(err => {
-//         res.status(500).send({
-//             message:
-//                 err.message || "Some error occurred while deleting the data."
-//         });
-//     });   
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while deleting the data."
+        });
+    });   
    
-// }
+}
 
 
 // exports.delete = async (req, res) => {
@@ -123,38 +120,38 @@ exports.add = async (req, res) => {
 
 // }
 
-// exports.get = async (req, res) => {
+exports.get = async (req, res) => {
 
-//     try {
-//         const lecturer2 = await ConSessions.find();
+    try {
+        const consession = await ConSessions.find();
 
-//         return res.status(200).send({
-//             data: lecturer2
-//         })
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(401).send({
-//             error: error
-//         })
-//     }
+        return res.status(200).send({
+            data: consession
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).send({
+            error: error
+        })
+    }
 
-// }
+}
 
-// exports.getOne = async (req, res) => {
+exports.getOne = async (req, res) => {
 
-//     console.log(req.params.id);
+    console.log(req.params.id);
 
-//     try {
-//         const lecturessr = await ConSessions.findOne({  _id: req.params.id });
-//         console.log(lecturessr);
-//         return res.status(200).send({
-//             data: lecturessr
-//         })
-//     } catch (error) {
-//         return res.status(401).send({
-//             error: error
-//         })
-//     }
-// }
+    try {
+        const lecturessr = await ConSessions.findOne({  _id: req.params.id });
+        console.log(lecturessr);
+        return res.status(200).send({
+            data: lecturessr
+        })
+    } catch (error) {
+        return res.status(401).send({
+            error: error
+        })
+    }
+}
 
 
