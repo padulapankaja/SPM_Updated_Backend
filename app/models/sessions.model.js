@@ -4,20 +4,20 @@ const Schema = mongoose.Schema;
 let Sessions = new Schema({
 
     lecturer: {
-        type: Schema.Types.ObjectId,
+        type: Schema.ObjectId,
        
     },
     tag: {
-        type: Schema.Types.ObjectId,
+        type: Schema.ObjectId,
         
 
     },
     subject: {
-        type: Schema.Types.ObjectId,
+        type: Schema.ObjectId,
 
     },
     group: {
-        type: Schema.Types.ObjectId,
+        type: Schema.ObjectId,
 
     },
     no_of_students: {
