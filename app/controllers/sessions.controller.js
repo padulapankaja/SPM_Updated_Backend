@@ -72,15 +72,29 @@ exports.all_info = async (req, res) => {
 
 
 
-exports.get_all = async (req, res) => {
+exports.get_all_sessions = async (req, res) => {
 
 
 
     try {
-        const lecturer = await Subject.find();
+        const sessions = await Sessions.find({});
+        
+        // const length = await Sessions.find({}).countDocuments()
+
+        // var sessions = []
+
+        // var sessionObje = {
+        //     sess
+        // }
+        // for (let index = 0; index <= length; index++) {
+        //     const element = array[index];
+
+
+            
+        // }
 
         return res.status(200).send({
-            data: lecturer
+            sessions
         })
     } catch (error) {
         console.log(error);
