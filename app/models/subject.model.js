@@ -3,8 +3,6 @@ const Schema = mongoose.Schema;
 
 let Subject = new Schema({
 
-
-
     year: {
         type: Number,
 

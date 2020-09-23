@@ -26,6 +26,7 @@ const statsRoute = require("./app/routes/stats.route");
 const GenerateSubGroupIdRoute = require("./app/routes/generateSubgroup.route");
 const StudentRoute = require("./app/routes/student.route");
 const TagRoute = require("./app/routes/Tag.route");
+const SessionRoute = require("./app/routes/sessions.routes");
 
 
 //======================================================================================================
@@ -59,6 +60,9 @@ app.use("/api/stats", statsRoute);
 app.use("/api/GenerateSubGroup", GenerateSubGroupIdRoute);
 app.use("/api/student", StudentRoute);
 app.use("/api/tag", TagRoute);
+
+
+app.use("/api/session", SessionRoute);
 
 
 

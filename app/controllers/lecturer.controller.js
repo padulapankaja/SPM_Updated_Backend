@@ -37,7 +37,7 @@ exports.add_lecturer = async (req, res) => {
     });
     // Save Tutorial in the database
     try {
-        Lecturer.find({ name: new_lecturer.name }, function (err, docs) {
+        Lecturer.find({ empId: new_lecturer.empId }, function (err, docs) {
             if (docs.length == 0) {
                 //save 
                 new_lecturer.save(function (err) {
