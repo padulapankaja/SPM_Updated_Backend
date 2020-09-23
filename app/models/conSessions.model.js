@@ -3,12 +3,8 @@ const Schema = mongoose.Schema;
 
 let ConSession = new Schema({
     
-    id: {
-        type: String,
-        unique : true,
-    },
     ConSession: {
-        type: String,
+        type: [],
     },
 
 });

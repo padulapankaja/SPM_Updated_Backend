@@ -12,13 +12,16 @@ const conSession = require('../controllers/conSession.controller');
      router.post('/add', conSession.add );
        
      //Get all group list
-    //  router.get('/get' , conSession.get );
+     router.get('/get' , conSession.get );
+
+             //get one building
+             router.get('/getOne/:id', conSession.getOne);
  
      //Update selected group
     //  router.post('/update' , conSession.update );
  
      //Delete selected group
-    //  router.delete('/delete/:id' , conSession.delete );
+     router.delete('/delete/:id' , conSession.delete );
 
 
 //export router
