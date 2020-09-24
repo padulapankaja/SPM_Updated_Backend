@@ -44,8 +44,8 @@ let Lecturer = new Schema({
         type: String,
 
     },
-
-
-
+    rooms: {
+        type: []
+    },
 });
 module.exports = mongoose.model('lecturer', Lecturer);

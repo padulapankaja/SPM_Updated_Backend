@@ -26,8 +26,10 @@ let Student = new Schema({
     },
     subgroup_ID: {
         type: String,
-    }
-
+    },
+    rooms: {
+        type: [],
+    }, 
 
 });
 module.exports = mongoose.model('student', Student);
