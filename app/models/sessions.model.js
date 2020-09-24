@@ -26,8 +26,10 @@ let Sessions = new Schema({
     },
     duration: {
         type: String,
-    }
-
+    },
+    rooms: {
+        type: [],
+    },
 
 });
 module.exports = mongoose.model('sessions', Sessions);
