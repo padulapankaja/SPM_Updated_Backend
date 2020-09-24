@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Parallel = require('../controllers/parallel.controller');
+const overlap = require('../controllers/overlap.controller');
 
 
 //======================================================================================================
@@ -9,17 +9,16 @@ const Parallel = require('../controllers/parallel.controller');
 //====================================================================================================== 
 
     // Create new  parallel session 
-    router.post("/add", Parallel.add );
+    router.post("/add", overlap.add );
        
     //Get all parallel sessions list
-    router.get('/get' , Parallel.get );
-
-    //Delete selected group
-    router.delete('/delete/:id' , Parallel.delete );
+    router.get('/get' , overlap.get );
 
     //get one room
-    router.get('/getOne/:id', Parallel.getOne);
+    // router.get('/getOne/:id', overlap.getOne);
 
+    // //Delete selected group
+    router.delete('/delete/:id' , overlap.delete );
 
 
 
