@@ -19,7 +19,7 @@ const lecturerRoute = require("./app/routes/lecturer.route");
 const subjectRoute = require("./app/routes/subject.route");
 const ConSession = require("./app/routes/conSession.route");
 const ParallelRoute = require("./app/routes/parallel.route");
-
+const OverlapRoute = require("./app/routes/overlap.route");
 const buildingRoute = require("./app/routes/building.route");
 const roomRoute = require("./app/routes/room.route");
 const statsRoute = require("./app/routes/stats.route");
@@ -61,7 +61,7 @@ app.use("/api/GenerateSubGroup", GenerateSubGroupIdRoute);
 app.use("/api/student", StudentRoute);
 app.use("/api/tag", TagRoute);
 app.use("/api/suitable", suitableRoute);
-
+app.use("/api/Not_overlap", OverlapRoute);
 
 app.use("/api/session", SessionRoute);
 

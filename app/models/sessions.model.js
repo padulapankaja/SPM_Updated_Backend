@@ -30,6 +30,14 @@ let Sessions = new Schema({
     rooms: {
         type: [],
     },
+    parallel : {
+        type: Boolean,
+        default: false
+    },
+    consecutive : {
+        type: Boolean,
+        default: false
+    }
 
 });
 module.exports = mongoose.model('sessions', Sessions);
