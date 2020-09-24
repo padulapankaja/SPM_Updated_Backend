@@ -36,8 +36,9 @@ let Subject = new Schema({
         type: String,
 
     },
-
-
+    rooms: {
+        type: [],
+    },
 
 });
 module.exports = mongoose.model('subject', Subject);

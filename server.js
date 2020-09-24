@@ -27,7 +27,7 @@ const GenerateSubGroupIdRoute = require("./app/routes/generateSubgroup.route");
 const StudentRoute = require("./app/routes/student.route");
 const TagRoute = require("./app/routes/Tag.route");
 const SessionRoute = require("./app/routes/sessions.routes");
-
+const suitableRoute = require("./app/routes/suitable.route");
 
 //======================================================================================================
 //===================================import config files ===============================================
@@ -60,8 +60,8 @@ app.use("/api/stats", statsRoute);
 app.use("/api/GenerateSubGroup", GenerateSubGroupIdRoute);
 app.use("/api/student", StudentRoute);
 app.use("/api/tag", TagRoute);
+app.use("/api/suitable", suitableRoute);
 app.use("/api/Not_overlap", OverlapRoute);
-
 
 app.use("/api/session", SessionRoute);
 
@@ -94,6 +94,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(dbConfig.url, {
     useNewUrlParser: true,
+    useFindAndModify: false ,
     useUnifiedTopology: true,
   })
   .then(() => {

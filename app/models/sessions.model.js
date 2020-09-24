@@ -27,6 +27,9 @@ let Sessions = new Schema({
     duration: {
         type: String,
     },
+    rooms: {
+        type: [],
+    },
     parallel : {
         type: Boolean,
         default: false
@@ -35,7 +38,6 @@ let Sessions = new Schema({
         type: Boolean,
         default: false
     }
-
 
 });
 module.exports = mongoose.model('sessions', Sessions);
