@@ -46,34 +46,30 @@ exports.add = async (req, res) => {
 
 
 exports.delete = async (req, res) => {
-
-    console.log(req.params.id);
     
     if (req.params.id == null || req.params.id == undefined) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "Content can not be empty!"
-        });
-        return;
+        }); 
     }
-    
-    Parallel.findOneAndDelete({ _id: req.params.id })
-    .then( result => {
 
-        if (!result) {
-            throw new Error('No record found')
+    try{
+        const deleted = await Parallel.findOneAndDelete({ _id: req.params.id });
+        if(deleted != null && deleted != undefined && deleted._id != undefined ){
+            
+            const success = await Sessions.update({
+                _id: { "$in": [deleted.session_01 , deleted.session_02] }
+                },{parallel: false},{multi: true});
+    
+            return res.status(200).send({ message: 'Deleted Successfully' }); 
         }
+        return res.status(200).json({message : 'Deleted Successfully'});  
 
-        res.status(200).send({
-            message: "Deleted successfully"
+    }catch(err){
+        return res.status(400).send({
+            message: "Delete Failed !"
         });
-    
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-                err.message || "Some error occurred while deleting the data."
-        });
-    });   
+    }
    
 }
 
@@ -111,8 +107,6 @@ exports.delete = async (req, res) => {
 // }
 
 // exports.delete = async (req, res) => {
-
-//     console.log(req.params.id);
     
 //     if (req.params.id == null || req.params.id == undefined) {
 //         res.status(400).send({
@@ -121,24 +115,6 @@ exports.delete = async (req, res) => {
 //         return;
 //     }
     
-//     Student.findOneAndDelete({ _id: req.params.id })
-//     .then( result => {
-
-//         if (!result) {
-//             throw new Error('No record found')
-//         }
-
-//         res.status(200).send({
-//             message: "Deleted successfully"
-//         });
-    
-//     })
-//     .catch(err => {
-//         res.status(500).send({
-//             message:
-//                 err.message || "Some error occurred while deleting the data."
-//         });
-//     });   
    
 // }
 
@@ -223,6 +199,7 @@ exports.get = async (req, res) => {
             
             if(session_01 != undefined && session_02 != undefined){
                 return {
+                    _id : item._id ,
                     session_01 : {
                         _id : session_01._id ,
                         lecturer : session_01.lecturer.name ,
@@ -239,7 +216,7 @@ exports.get = async (req, res) => {
                     }
                 }
              }else{
-                 return { session_01 : {} , session_02 : {}}
+                 return { _id : item._id , session_01 : {} , session_02 : {}}
              }
         })
         res.status(200).send({

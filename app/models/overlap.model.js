@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let ConSession = new Schema({
-    
+let Overlap = new Schema({
+
     session_01 : {
         type: Schema.ObjectId,
     },
@@ -11,4 +11,4 @@ let ConSession = new Schema({
     }
 
 });
-module.exports = mongoose.model('conSession', ConSession);
+module.exports = mongoose.model('overlap', Overlap);
