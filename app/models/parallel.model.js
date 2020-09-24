@@ -3,23 +3,12 @@ const Schema = mongoose.Schema;
 
 let Parallel = new Schema({
 
-    start: {
-        type: String,
-        // unique: true
+    session_01 : {
+        type: Schema.ObjectId,
     },
-    end: {
-        type:String ,
-        // unique: true
-
-    },
-    date: {
-        type: Date,
-
-    },
-    duration: {
-        type: Number,
-
-    },
+    session_02 : {
+        type: Schema.ObjectId,
+    }
 
 });
 module.exports = mongoose.model('parallel', Parallel);

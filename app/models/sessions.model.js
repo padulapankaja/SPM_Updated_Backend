@@ -26,6 +26,14 @@ let Sessions = new Schema({
     },
     duration: {
         type: String,
+    },
+    parallel : {
+        type: Boolean,
+        default: false
+    },
+    consecutive : {
+        type: Boolean,
+        default: false
     }
 
 

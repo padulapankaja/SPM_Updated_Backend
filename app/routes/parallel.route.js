@@ -8,20 +8,18 @@ const Parallel = require('../controllers/parallel.controller');
 //===================================  POST REQUEST       ==============================================
 //====================================================================================================== 
 
-    // Create new  group
+    // Create new  parallel session 
     router.post("/add", Parallel.add );
        
-    //Get all group list
+    //Get all parallel sessions list
     router.get('/get' , Parallel.get );
 
-    // //Update selected group
-    // router.post('/update' , student.update );
+    //get one room
+    router.get('/getOne/:id', Parallel.getOne);
 
-    // //Delete selected group
-    // router.delete('/delete/:id' , student.delete );
+    //Delete selected group
+    router.delete('/delete/:id' , Parallel.delete );
 
-        //get one building
-        // router.get('/getOne/:id', student.getOne);
 
 
 //export router

@@ -3,8 +3,6 @@ const Schema = mongoose.Schema;
 
 let Lecturer = new Schema({
 
-
-
     name: {
         type: String,
         unique: true
