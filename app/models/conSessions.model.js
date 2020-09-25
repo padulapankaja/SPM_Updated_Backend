@@ -8,7 +8,9 @@ let ConSession = new Schema({
     },
     session_02 : {
         type: Schema.ObjectId,
+    },
+    rooms: {
+        type: [],
     }
-
 });
 module.exports = mongoose.model('conSession', ConSession);
