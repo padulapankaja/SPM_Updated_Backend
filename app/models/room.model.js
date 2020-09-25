@@ -14,6 +14,9 @@ let Room = new Schema({
     building: {
         type: String,
     },
+    snv: {
+        type: [] ,
+    },
 });
 
 module.exports = mongoose.model('room', Room);
