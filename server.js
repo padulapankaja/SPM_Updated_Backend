@@ -27,7 +27,7 @@ const GenerateSubGroupIdRoute = require("./app/routes/generateSubgroup.route");
 const StudentRoute = require("./app/routes/student.route");
 const TagRoute = require("./app/routes/Tag.route");
 const SessionRoute = require("./app/routes/sessions.routes");
-
+const AllocateSessionRoute = require("./app/routes/allocateSess.route");
 const AllocateLecRoute = require("./app/routes/allocateLec.route");
 const AllocateGroupRoute = require("./app/routes/allocateGroup.route");
 
@@ -75,7 +75,7 @@ app.use("/api/allocateLect", AllocateLecRoute);
 app.use("/api/allocateGroup", AllocateGroupRoute);
 app.use("/api/workingdays", WorkingDaysRoute);
 app.use("/api/timeslots", TimeslotsRoute);
-
+app.use("/api/allocatSession", AllocateSessionRoute);
 
 
 app.use("/api/session", SessionRoute);

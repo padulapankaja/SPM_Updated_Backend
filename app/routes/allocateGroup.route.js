@@ -4,7 +4,7 @@ const router = express.Router();
 const AllocateGroup = require('./../controllers/allocateGroup.controller');
 
 //add building
-router.post('/add', AllocateGroup.add);
+router.post('/notavailable', AllocateGroup.notavailable);
 
 //get all buildings
 router.get('/get', AllocateGroup.get);

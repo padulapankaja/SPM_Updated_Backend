@@ -4,7 +4,7 @@ const router = express.Router();
 const AllocateSession = require('./../controllers/allocateSess.controller');
 
 //add building
-router.post('/add', AllocateSession.add);
+router.post('/notavailable', AllocateSession.notavailable);
 
 //get all buildings
 router.get('/get', AllocateSession.get);

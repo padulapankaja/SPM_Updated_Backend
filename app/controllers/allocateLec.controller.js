@@ -1,4 +1,5 @@
 const AllocateLec = require("./../models/allocateLec.model");
+const Lecturer = require('../models/lecturer.model');
 
 exports.add = (req, res) => {
     
@@ -17,6 +18,23 @@ exports.add = (req, res) => {
         return res.status(200).send(savedBuilding);
     });
 };
+
+exports.notavailable = (req, res) => {
+
+    if(req.body.id == undefined && req.body.snv == undefined){
+        return res.status(400).send({message : 'id, snv required'})
+    }
+    console.log("backend ekata awa")
+    const conditions = { _id : req.body.id}
+    const update = {$set:{ snv : req.body.snv }}
+
+    Lecturer.findOneAndUpdate(conditions , update , {new: true}, (err, updated) => {
+         if(err) { return res.status(401).send(err); }
+        console.log(updated)
+        return res.json({ data : updated})
+    });
+
+}
 
 exports.get = (req, res) => {
     AllocateLec.find()

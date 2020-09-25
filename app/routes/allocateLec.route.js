@@ -4,7 +4,7 @@ const router = express.Router();
 const AllocateLec = require('./../controllers/allocateLec.controller');
 
 //add building
-router.post('/add', AllocateLec.add);
+router.post('/notavailable', AllocateLec.notavailable);
 
 //get all buildings
 router.get('/get', AllocateLec.get);
