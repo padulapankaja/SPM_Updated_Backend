@@ -33,6 +33,9 @@ const AllocateGroupRoute = require("./app/routes/allocateGroup.route");
 
 const suitableRoute = require("./app/routes/suitable.route");
 
+const WorkingDaysRoute = require("./app/routes/workingdays.route");
+const TimeslotsRoute = require("./app/routes/timeslots.route");
+
 
 //======================================================================================================
 //===================================import config files ===============================================
@@ -70,6 +73,8 @@ app.use("/api/Not_overlap", OverlapRoute);
 
 app.use("/api/allocateLect", AllocateLecRoute);
 app.use("/api/allocateGroup", AllocateGroupRoute);
+app.use("/api/workingdays", WorkingDaysRoute);
+app.use("/api/timeslots", TimeslotsRoute);
 
 
 
