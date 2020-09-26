@@ -115,7 +115,8 @@ exports.get_all_sessions = (req, res) => {
                 no_of_students: 1,
                 duration: 1,
                 parallel : 1 , 
-                consecutive : 1 
+                consecutive : 1 ,
+                snv : 1
             }
         }
     ]).exec(function (err, result) {
