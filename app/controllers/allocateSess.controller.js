@@ -20,47 +20,65 @@ const Sessions = require('../models/sessions.model');
 //     });
 // };
 
+exports.notavailable = (req, res) => {
 
-// create parallel sessions
-exports.add = async (req, res) => {
-    
-    if (req.body.Session == undefined || req.body.Session == undefined) {
-        return res.status(400).send({ message: "2 sessions can not be empty!" });
+    if(req.body.id == undefined && req.body.snv == undefined){
+        return res.status(400).send({message : 'id, snv required'})
     }
 
-    const option = { session_01 : req.body.Session}
-    const check_session = await AllocateSess.find(option);
+    const conditions = { _id : req.body.id}
+    const update = {$set:{ snv : req.body.snv }}
 
-    if(check_session.length > 0 ){
-        return res.status(200).send({ message: "Already have a Allocated session !" }); 
-    }
-
-    let new_parallel = Parallel({
-        Session : req.body.Session,
-        date: req.body.date,
-        start_time: req.body.start_time,
-        end_time: req.body.end_time, 
+    Sessions.findOneAndUpdate(conditions , update , {new: true}, (err, updated) => {
+         if(err) { return res.status(401).send(err); }
+        console.log(updated)
+        return res.json({ data : updated})
     });
 
-    const saved = await new_parallel.save();
-    if(saved === new_parallel) {
-        try{
-        const success = await Sessions.update({
-            _id: { "$in": [req.body.Session ] }
-            });
+}
 
-        return res.status(200).send({ message: "Successfully Added !" }); 
 
-        } catch (error) {
-            return res.status(400).send({ message: "Update Failed !" }); 
-        }
 
-    }else{
-        return res.status(400).send({ message: "Not created!" }); 
-    }
+// // create parallel sessions
+// exports.add = async (req, res) => {
+    
+//     if (req.body.Session == undefined || req.body.Session == undefined) {
+//         return res.status(400).send({ message: "2 sessions can not be empty!" });
+//     }
+
+//     const option = { session_01 : req.body.Session}
+//     const check_session = await AllocateSess.find(option);
+
+//     if(check_session.length > 0 ){
+//         return res.status(200).send({ message: "Already have a Allocated session !" }); 
+//     }
+
+//     let new_parallel = Parallel({
+//         Session : req.body.Session,
+//         date: req.body.date,
+//         start_time: req.body.start_time,
+//         end_time: req.body.end_time, 
+//     });
+
+//     const saved = await new_parallel.save();
+//     if(saved === new_parallel) {
+//         try{
+//         const success = await Sessions.update({
+//             _id: { "$in": [req.body.Session ] }
+//             });
+
+//         return res.status(200).send({ message: "Successfully Added !" }); 
+
+//         } catch (error) {
+//             return res.status(400).send({ message: "Update Failed !" }); 
+//         }
+
+//     }else{
+//         return res.status(400).send({ message: "Not created!" }); 
+//     }
     
     
-};
+// };
 
 
 

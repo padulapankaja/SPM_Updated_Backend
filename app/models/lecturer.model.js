@@ -47,5 +47,8 @@ let Lecturer = new Schema({
     rooms: {
         type: []
     },
+    snv: {
+        type: [] ,
+    },
 });
 module.exports = mongoose.model('lecturer', Lecturer);

@@ -37,7 +37,10 @@ let Sessions = new Schema({
     consecutive : {
         type: Boolean,
         default: false
-    }
+    },
+    snv: {
+        type: [] ,
+    }, 
 
 });
 module.exports = mongoose.model('sessions', Sessions);

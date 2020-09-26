@@ -29,6 +29,9 @@ let Student = new Schema({
     },
     rooms: {
         type: [],
+    },
+    snv: {
+        type: [] ,
     }, 
 
 });
