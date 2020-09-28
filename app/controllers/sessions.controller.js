@@ -139,25 +139,25 @@ exports.get_filtered = async (req, res) => {
     var f_type = req.body.f_type
     var f_word = req.body.f_word
     var value = ""
-
+    console.log(req.body.f_type);
     if((f_type == undefined || f_type == null || f_type == "") || (f_word == undefined || f_word == null || f_word == "") ){
        return res.status(401).send({
             msg : "Please sent valid data"
         })
     }
-
+    var options = "";
     if(f_type == "lecturer")
-        value = "lecturer"
+    options =  { "lecturer.name" : f_word  }
     else if (f_type == "subject")
-        value = "subject"
-    else if (f_type == "group")
-        value = "group"
+    options =  { "subject.code" : f_word  }
+    else if (f_type == "groupId")
+    options =  { "group.subgroup_ID" : f_word  }
     else if (f_type == "duration")
-        value = "duration"
+    options =  { "duration" : f_word  }
     else if (f_type == "no_of_students")
-        value = "no_of_students"
-    else if (f_type == "tags")
-        value = "tag"
+    options =  { "no_of_students" : f_word  }   
+    else if (f_type == "tag")
+    options =  { "tag.name" : f_word  }   
     else    
         value = ""
 
@@ -209,9 +209,9 @@ exports.get_filtered = async (req, res) => {
                         snv : 1
                     }
                 },
-                { "$match": { "lecturer.name" : f_word  } },
+                { "$match": options },
             ])
-    console.log(result);
+    console.log(options);
     // if(result.length < 1){
     //     var result = await Sessions.find({})
     // }
