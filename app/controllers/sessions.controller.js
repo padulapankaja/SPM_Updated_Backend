@@ -135,50 +135,90 @@ exports.get_all_sessions = (req, res) => {
 
 exports.get_filtered = async (req, res) => {
     console.log(req.body);
-    var word = req.body.word;
-    var column
-    var whe = {
-        year: word
-    }
-    if (req.body.filed == "year") {
-        column = "name"
-        whe = {
-            year: word
-        }
-    }
-    else if (req.body.filed == "semester") {
-        column = "semester"
-        whe = {
-            semester: word
-        }
-    }
-    else if (req.body.filed == "name") {
-        column = "name"
-        whe = {
-            name: word
-        }
-    }
-    else if (req.body.filed == "code") {
-        column = "code"
-        whe = {
-            code: word
-        }
-    }
 
+    var f_type = req.body.f_type
+    var f_word = req.body.f_word
+    var value = ""
 
-    console.log(column);
-    console.log(word);
-
-    try {
-        const subjects = await Subject.find(whe);
-        return res.status(200).send({
-            data: subjects
-        })
-    } catch (error) {
-        return res.status(401).send({
-            error: error
+    if((f_type == undefined || f_type == null || f_type == "") || (f_word == undefined || f_word == null || f_word == "") ){
+       return res.status(401).send({
+            msg : "Please sent valid data"
         })
     }
-}
+
+    if(f_type == "lecturer")
+        value = "lecturer"
+    else if (f_type == "subject")
+        value = "subject"
+    else if (f_type == "group")
+        value = "group"
+    else if (f_type == "duration")
+        value = "duration"
+    else if (f_type == "no_of_students")
+        value = "no_of_students"
+    else if (f_type == "tags")
+        value = "tag"
+    else    
+        value = ""
+
+    console.log(value);
+    var result = await Sessions.aggregate([
+                {
+                    $lookup: {
+                        from: "lecturers", // collection name in db
+                        localField: "lecturer",
+                        foreignField: "_id",
+                        as: "lecturer"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "tags", // collection name in db
+                        localField: "tag",
+                        foreignField: "_id",
+                        as: "tag"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "subjects", // collection name in db
+                        localField: "subject",
+                        foreignField: "_id",
+                        as: "subject"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "students", // collection name in db
+                        localField: "group",
+                        foreignField: "_id",
+                        as: "group"
+                    }
+                },
+               
+                {
+                    $project: {
+                        lecturer: { $arrayElemAt: ["$lecturer", 0], },
+                        tag: { $arrayElemAt: ["$tag", 0] },
+                        subject: { $arrayElemAt: ["$subject", 0] },
+                        group: { $arrayElemAt: ["$group", 0] },
+                        no_of_students: 1,
+                        duration: 1,
+                        parallel : 1 , 
+                        consecutive : 1 ,
+                        snv : 1
+                    }
+                },
+                { "$match": { "lecturer.name" : f_word  } },
+            ])
+    console.log(result);
+    // if(result.length < 1){
+    //     var result = await Sessions.find({})
+    // }
+
+    res.status(200).send({
+        result
+    })
+}   
 
 
