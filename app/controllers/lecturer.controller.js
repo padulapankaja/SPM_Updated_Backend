@@ -37,12 +37,13 @@ exports.add_lecturer = async (req, res) => {
     });
     // Save Tutorial in the database
     try {
-        Lecturer.find({ empId: new_lecturer.empId }, function (err, docs) {
+        Lecturer.find({ empId: new_lecturer.empId , name: new_lecturer.name}, function (err, docs) {
             if (docs.length == 0) {
                 //save 
                 new_lecturer.save(function (err) {
                     if (err) {
-                        return next(err);
+                        console.log(err);
+                        return res.status(403).send('Already have')
                     }
                     console.log("New user register");
 
