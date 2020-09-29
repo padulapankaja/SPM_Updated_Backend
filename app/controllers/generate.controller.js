@@ -2,6 +2,7 @@ const Sessions = require('../models/sessions.model');
 const Timeslots = require('../models/timeslot.model');
 const Parallel = require('../models/parallel.model');
 const Consecutive = require('../models/conSessions.model');
+const Result = require('../models/result.model');
 const moment = require('moment'); 
 
 
@@ -241,3 +242,50 @@ exports.get_con = async (req, res) => {
     });
 
 };
+
+
+exports.upload = async (req, res) => {
+
+    if( req.body.group_id == undefined  || req.body.group_id == null ){
+        return res.status(401).send({ message : 'group id required!' });
+    }
+
+    if( req.body.results == undefined || req.body.results == null  || req.body.results.length == 0){
+        return res.status(401).send({ message : 'results requied!' });
+    }
+
+    try{
+        await Result.remove({ group_id :  req.body.group_id});
+       
+        let result = req.body.results;
+        let g_id = req.body.group_id;
+
+        let array = result.map( item => {
+            return new Result({
+                session: item.session,
+                group_id :  g_id,
+                group: item.group_id,
+                lecturer: item.lecturer_id , 
+                s_time : item.s_time , 
+                room : item.room ,
+                e_time : item.e_time ,
+                day : item.day ,
+                duration : item.duration,
+                type : item.type
+            })
+        })
+
+        Result.insertMany(array)  
+        .then((result) => {
+            return res.status(200).send({ message : 'added successfully' });
+        })
+        .catch(err => {
+            return res.status(401).send({ message : 'upload failed !' , error : err });
+        });
+       
+    
+    }catch(err){
+        return res.status(401).send({ message : 'upload failed !' , error : err });
+    }
+
+}

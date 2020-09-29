@@ -14,6 +14,9 @@ const generate = require("../controllers/generate.controller");
    //Get timeslots 
     router.get('/get/con' , generate.get_con );
 
+    //upload results
+    router.post('/upload' , generate.upload );
+
    //Update selected timeslot
 //    router.post('/update' , generate.update );
 
