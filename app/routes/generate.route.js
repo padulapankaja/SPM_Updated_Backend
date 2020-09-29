@@ -17,11 +17,8 @@ const generate = require("../controllers/generate.controller");
     //upload results
     router.post('/upload' , generate.upload );
 
-   //Update selected timeslot
-//    router.post('/update' , generate.update );
-
-   //Delete selected timeslot
-//    router.delete('/delete' , generate.delete );
+    //Get lecturer timetble 
+    router.get('/get/timetable/:group_id/:lecturer_id' , generate.get_lecturer_table );
 
 
 //export router
