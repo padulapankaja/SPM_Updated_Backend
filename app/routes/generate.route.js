@@ -11,6 +11,9 @@ const generate = require("../controllers/generate.controller");
    //Get timeslots 
     router.get('/get/parallel' , generate.get_parallel );
 
+   //Get timeslots 
+    router.get('/get/con' , generate.get_con );
+
    //Update selected timeslot
 //    router.post('/update' , generate.update );
 
