@@ -20,6 +20,12 @@ const generate = require("../controllers/generate.controller");
     //Get lecturer timetble 
     router.get('/get/timetable/:group_id/:lecturer_id' , generate.get_lecturer_table );
 
+    //Get group timetble 
+    router.get('/get/grouptable/:group_id/:group' , generate.get_group_table );
+
+    //Get room timetble 
+    router.get('/get/roomtable/:group_id/:room' , generate.get_room_table );
+
 
 //export router
 module.exports = router

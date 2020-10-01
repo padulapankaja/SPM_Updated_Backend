@@ -306,3 +306,35 @@ exports.get_lecturer_table = (req, res) => {
     });
 
 };
+
+exports.get_group_table = (req, res) => {
+   
+    Result.find( { $and : [ { group_id : req.params.group_id },{ group : req.params.group }]} )
+    .then( results => {
+        console.log(results.length);
+        res.status(200).send(results);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while fetching the data."
+        });
+    });
+
+};
+
+exports.get_room_table = (req, res) => {
+   
+    Result.find( { $and : [ { group_id : req.params.group_id },{ room : req.params.room }]} )
+    .then( results => {
+        console.log(results.length);
+        res.status(200).send(results);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while fetching the data."
+        });
+    });
+
+};

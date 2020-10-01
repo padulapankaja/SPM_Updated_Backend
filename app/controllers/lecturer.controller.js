@@ -144,6 +144,23 @@ exports.get_specific_lecturer = async (req, res) => {
 
 }
 
+exports.get_specific_lecturer_by_id = async (req, res) => {
+
+    console.log(req.params);
+
+    try {
+        const lecturer = await Lecturer.find({  _id : req.params.id });
+        return res.status(200).send({
+            data: lecturer
+        })
+    } catch (error) {
+        return res.status(401).send({
+            error: error
+        })
+    }
+
+}
+
 
 
 exports.get_filtered = async (req, res) => {

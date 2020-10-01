@@ -123,3 +123,23 @@ exports.getOne = async (req, res) => {
     }
 
 }
+
+
+exports.getOneByName = async (req, res) => {
+
+    console.log(req);
+
+    try {
+        const rom = await Room.findOne({ name : req.params.id });
+        return res.status(200).send({
+            data: rom
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).send({
+            error: error
+        })
+    }
+
+}
+
