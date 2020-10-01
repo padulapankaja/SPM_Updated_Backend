@@ -5,8 +5,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
-//define server running port
-let port = 4000;
+const env = require('dotenv');
+
+var port = process.env.PORT || 4000;
 
 const MongoClient = require("mongodb").MongoClient;
 
