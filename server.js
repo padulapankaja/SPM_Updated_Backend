@@ -35,6 +35,7 @@ const suitableRoute = require("./app/routes/suitable.route");
 
 const WorkingDaysRoute = require("./app/routes/workingdays.route");
 const TimeslotsRoute = require("./app/routes/timeslots.route");
+const GenerateRoute = require("./app/routes/generate.route");
 
 
 //======================================================================================================
@@ -79,6 +80,7 @@ app.use("/api/allocatSession", AllocateSessionRoute);
 
 
 app.use("/api/session", SessionRoute);
+app.use("/api/generate", GenerateRoute);
 
 
 

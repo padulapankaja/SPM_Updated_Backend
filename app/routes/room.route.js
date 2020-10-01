@@ -18,4 +18,6 @@ router.delete('/delete/:id', roomController.delete);
 //get one room
 router.get('/getOne/:id', roomController.getOne);
 
+router.get('/getOneByName/:id', roomController.getOneByName);
+
 module.exports = router

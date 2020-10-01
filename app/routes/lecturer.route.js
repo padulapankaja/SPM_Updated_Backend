@@ -22,6 +22,7 @@ router.get("/all", lecturerController.get_all);
 
 
 router.get("/:id", lecturerController.get_specific_lecturer);
+router.get("/byid/:id", lecturerController.get_specific_lecturer_by_id);
 
 router.post("/filter", lecturerController.get_filtered);
 
