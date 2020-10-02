@@ -26,9 +26,9 @@ exports.add = async (req, res) => {
     const saved = await new_parallel.save();
     if(saved === new_parallel) {
         try{
-        const success = await Sessions.update({
-            _id: { "$in": [req.body.session_01 , req.body.session_02] }
-            },{parallel: true},{multi: true});
+        // const success = await Sessions.update({
+        //     _id: { "$in": [req.body.session_01 , req.body.session_02] }
+        //     },{parallel: true},{multi: true});
 
         return res.status(200).send({ message: "Successfully Added !" }); 
 
@@ -56,10 +56,6 @@ exports.delete = async (req, res) => {
         const deleted = await Overlap.findOneAndDelete({ _id: req.params.id });
         if(deleted != null && deleted != undefined && deleted._id != undefined ){
             
-            const success = await Sessions.update({
-                _id: { "$in": [deleted.session_01 , deleted.session_02] }
-                },{parallel: false},{multi: true});
-    
             return res.status(200).send({ message: 'Deleted Successfully' }); 
         }
         return res.status(200).json({message : 'Deleted Successfully'});  

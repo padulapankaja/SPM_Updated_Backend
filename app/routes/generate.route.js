@@ -26,6 +26,14 @@ const generate = require("../controllers/generate.controller");
     //Get room timetble 
     router.get('/get/roomtable/:group_id/:room' , generate.get_room_table );
 
+    //Get all timeslot list
+   router.get('/get/test' , (req,res) => {
+    res.status(200).json({message : 'success'})
+   });
+
+   //Get all timeslot list
+   router.get('/get/notoverlap' , generate.get_notoverlap );
+
 
 //export router
 module.exports = router
