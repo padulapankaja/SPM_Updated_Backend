@@ -5,6 +5,9 @@ const Lecturers = require('../models/lecturer.model');
 const Tags = require('../models/Tag.model');
 const Subjects = require('../models/subject.model');
 const Student = require('../models/student.model');
+const OverLapSessions = require('../models/overlap.model');
+const ParallelSessions = require('../models/parallel.model');
+const ConSessions = require('../models/conSessions.model');
 //======================================================================================================
 //================================== Register Lecturer  =============================================
 //====================================================================================================== 
@@ -114,9 +117,9 @@ exports.get_all_sessions = (req, res) => {
                 group: { $arrayElemAt: ["$group", 0] },
                 no_of_students: 1,
                 duration: 1,
-                parallel : 1 , 
-                consecutive : 1 ,
-                snv : 1
+                parallel: 1,
+                consecutive: 1,
+                snv: 1
             }
         }
     ]).exec(function (err, result) {
@@ -140,77 +143,77 @@ exports.get_filtered = async (req, res) => {
     var f_word = req.body.f_word
     var value = ""
     console.log(req.body.f_type);
-    if((f_type == undefined || f_type == null || f_type == "") || (f_word == undefined || f_word == null || f_word == "") ){
-       return res.status(401).send({
-            msg : "Please sent valid data"
+    if ((f_type == undefined || f_type == null || f_type == "") || (f_word == undefined || f_word == null || f_word == "")) {
+        return res.status(401).send({
+            msg: "Please sent valid data"
         })
     }
     var options = "";
-    if(f_type == "lecturer")
-    options =  { "lecturer.name" : f_word  }
+    if (f_type == "lecturer")
+        options = { "lecturer.name": f_word }
     else if (f_type == "subject")
-    options =  { "subject.code" : f_word  }
+        options = { "subject.code": f_word }
     else if (f_type == "groupId")
-    options =  { "group.subgroup_ID" : f_word  }
+        options = { "group.subgroup_ID": f_word }
     else if (f_type == "duration")
-    options =  { "duration" : f_word  }
+        options = { "duration": f_word }
     else if (f_type == "no_of_students")
-    options =  { "no_of_students" : f_word  }   
+        options = { "no_of_students": f_word }
     else if (f_type == "tag")
-    options =  { "tag.name" : f_word  }   
-    else    
+        options = { "tag.name": f_word }
+    else
         value = ""
 
     console.log(value);
     var result = await Sessions.aggregate([
-                {
-                    $lookup: {
-                        from: "lecturers", // collection name in db
-                        localField: "lecturer",
-                        foreignField: "_id",
-                        as: "lecturer"
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "tags", // collection name in db
-                        localField: "tag",
-                        foreignField: "_id",
-                        as: "tag"
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "subjects", // collection name in db
-                        localField: "subject",
-                        foreignField: "_id",
-                        as: "subject"
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "students", // collection name in db
-                        localField: "group",
-                        foreignField: "_id",
-                        as: "group"
-                    }
-                },
-               
-                {
-                    $project: {
-                        lecturer: { $arrayElemAt: ["$lecturer", 0], },
-                        tag: { $arrayElemAt: ["$tag", 0] },
-                        subject: { $arrayElemAt: ["$subject", 0] },
-                        group: { $arrayElemAt: ["$group", 0] },
-                        no_of_students: 1,
-                        duration: 1,
-                        parallel : 1 , 
-                        consecutive : 1 ,
-                        snv : 1
-                    }
-                },
-                { "$match": options },
-            ])
+        {
+            $lookup: {
+                from: "lecturers", // collection name in db
+                localField: "lecturer",
+                foreignField: "_id",
+                as: "lecturer"
+            }
+        },
+        {
+            $lookup: {
+                from: "tags", // collection name in db
+                localField: "tag",
+                foreignField: "_id",
+                as: "tag"
+            }
+        },
+        {
+            $lookup: {
+                from: "subjects", // collection name in db
+                localField: "subject",
+                foreignField: "_id",
+                as: "subject"
+            }
+        },
+        {
+            $lookup: {
+                from: "students", // collection name in db
+                localField: "group",
+                foreignField: "_id",
+                as: "group"
+            }
+        },
+
+        {
+            $project: {
+                lecturer: { $arrayElemAt: ["$lecturer", 0], },
+                tag: { $arrayElemAt: ["$tag", 0] },
+                subject: { $arrayElemAt: ["$subject", 0] },
+                group: { $arrayElemAt: ["$group", 0] },
+                no_of_students: 1,
+                duration: 1,
+                parallel: 1,
+                consecutive: 1,
+                snv: 1
+            }
+        },
+        { "$match": options },
+    ])
     console.log(options);
     // if(result.length < 1){
     //     var result = await Sessions.find({})
@@ -219,6 +222,44 @@ exports.get_filtered = async (req, res) => {
     res.status(200).send({
         result
     })
-}   
+}
+
+
+exports.delete_sessions = async (req, res) => {
+    console.log(req.body);
+    console.log(req.body.id);
+    if (req.body.id == null || req.body.id == undefined) {
+        return res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    var session_count_in_session = await Sessions.find({ _id: req.body.id }).countDocuments()
+    var session_count_overlap = await OverLapSessions.find({ $or: [{ session_01: req.body.id }, { session_02: req.body.id }] }).countDocuments()
+    var session_count_parallel = await ParallelSessions.find({ $or: [{ session_01: req.body.id }, { session_02: req.body.id }] }).countDocuments()
+    var session_count_con = await ConSessions.find({ $or: [{ session_01: req.body.id }, { session_02: req.body.id }] }).countDocuments()
+    console.log(session_count_overlap);
+    console.log(session_count_parallel);
+    console.log(session_count_con);
+    console.log(session_count_in_session);
+    var sub_total = parseInt(session_count_overlap) + parseInt(session_count_parallel) + parseInt(session_count_con)
+    console.log("Sub total " + sub_total);
+    if (sub_total == 0) {
+        var result = await Sessions.findOneAndDelete({ _id: req.body.id })
+        if (!result) {
+            return res.status(400).send({
+                message: "No Found"
+            });
+        }
+        return res.status(200).send({
+            message: "Deleted success"
+        });
+    }else{
+        console.log("Have Sessions");
+        return res.status(402).send({
+            message: "Please delete relevent sessions"
+        });
+    }
+
+}
 
 
