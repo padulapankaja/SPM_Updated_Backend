@@ -1,11 +1,12 @@
 
 //import Lecturer
 const Student = require('../models/student.model');
+const Sessions = require('../models/sessions.model');
 
 
 // create user
 exports.add = async (req, res) => {
-    console.log("menna meka",req.body);
+    console.log("menna meka", req.body);
     // // Validate request
     // if (req.body.name == null || req.body.name == undefined) {
     //     res.status(400).send({
@@ -17,27 +18,27 @@ exports.add = async (req, res) => {
 
     let newstudent = Student({
         academicYear: req.body.academicYear,
-        semester : req.body.semester,
+        semester: req.body.semester,
         group_mo: req.body.group_mo,
         subgroup_mo: req.body.subgroup_mo,
         program: req.body.program,
-        subgroup_ID : req.body.subgroup_ID,
+        subgroup_ID: req.body.subgroup_ID,
     });
-    console.log("subgroup_ID : " , newstudent.subgroup_ID);
+    console.log("subgroup_ID : ", newstudent.subgroup_ID);
     // Save Tutorial in the database
     try {
         Student.findOne({ academicYear: newstudent.academicYear }, function (err, docs) {
             // if (docs.length == 0) {
-                //save 
-                newstudent.save(function (err) {
-                    if (err) {
-                        console.log(err);
-                        return err;
-                    }
-                    console.log("New user register");
+            //save 
+            newstudent.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    return err;
+                }
+                console.log("New user register");
 
-                    return res.status(200).send(newstudent);
-                })
+                return res.status(200).send(newstudent);
+            })
             // } else {
             //     return res.status(403).send('Already have')
             // }
@@ -60,13 +61,15 @@ exports.update = async (req, res) => {
     //     return;
     // }
 
-    const update_result = await Student.findOneAndUpdate({academicYear: req.body.academicYear}, 
-        { academicYear: req.body.academicYear,
-            semester: req.body.semester ,
-            group_mo: req.body.group_mo , 
-            subgroup_mo: req.body.subgroup_mo , 
+    const update_result = await Student.findOneAndUpdate({ academicYear: req.body.academicYear },
+        {
+            academicYear: req.body.academicYear,
+            semester: req.body.semester,
+            group_mo: req.body.group_mo,
+            subgroup_mo: req.body.subgroup_mo,
             program: req.body.program,
-            subgroup_ID: req.body.subgroup_ID },
+            subgroup_ID: req.body.subgroup_ID
+        },
         { new: true }
     ).then(result =>
         res.status(200).send({
@@ -85,33 +88,51 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
 
     console.log(req.params.id);
-    
+
     if (req.params.id == null || req.params.id == undefined) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
         return;
     }
-    
-    Student.findOneAndDelete({ _id: req.params.id })
-    .then( result => {
 
-        if (!result) {
-            throw new Error('No record found')
-        }
-
+    const result = await Student.findOne({ _id: req.params.id })
+    if (!result) {
+        res.status(400).send({
+            message: "No data found"
+        });
+    }
+    const res_session = await Sessions.find({ group: req.params.id }).countDocuments()
+    console.log(res_session);
+    if (res_session < 1) {
+        const ee = await Student.findOneAndDelete({ _id: req.params.id })
         res.status(200).send({
             message: "Deleted successfully"
         });
-    
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-                err.message || "Some error occurred while deleting the data."
+    } else {
+        res.status(402).send({
+            message: "Please delete sessions"
         });
-    });   
-   
+    }
+    // Student.findOneAndDelete({ _id: req.params.id })
+    // .then( result => {
+
+    //     if (!result) {
+    //         throw new Error('No record found')
+    //     }
+
+    //     res.status(200).send({
+    //         message: "Deleted successfully"
+    //     });
+
+    // })
+    // .catch(err => {
+    //     res.status(500).send({
+    //         message:
+    //             err.message || "Some error occurred while deleting the data."
+    //     });
+    // });   
+
 }
 
 
@@ -157,7 +178,7 @@ exports.getOne = async (req, res) => {
     console.log(req.params.id);
 
     try {
-        const lecturessr = await Student.findOne({  _id: req.params.id });
+        const lecturessr = await Student.findOne({ _id: req.params.id });
         console.log(lecturessr);
         return res.status(200).send({
             data: lecturessr
@@ -168,5 +189,7 @@ exports.getOne = async (req, res) => {
         })
     }
 }
+
+
 
 

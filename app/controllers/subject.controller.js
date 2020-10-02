@@ -1,6 +1,7 @@
 
 //import Lecturer
 const Subject = require('../models/subject.model');
+const Session = require('../models/sessions.model');
 
 
 
@@ -88,22 +89,37 @@ exports.edit_subject = async (req, res) => {
 
 
 exports.delete_subject   = async (req, res) => {
-
     console.log(req.body);
     if (req.body.code == null || req.body.code == undefined) {
         return  res.status(400).send({
             message: "Content can not be empty!"
         });
     }
-    var result = await Subject.findOneAndDelete({code: req.body.code})
-    if (!result) {
-      return  res.status(400).send({
+    var spec_subject = await Subject.findOne({code: req.body.code})
+    if(!spec_subject){
+        return  res.status(400).send({
             message: "No Found"
         });
     }
-    return res.status(200).send({
-        message: "Deleted success"
-    });
+    var session_count = await Session.find({ subject: spec_subject._id }).countDocuments()
+    console.log(session_count);
+
+    if(session_count < 1){
+
+        var result = await Subject.findOneAndDelete({code: req.body.code})
+        if (!result) {
+          return  res.status(400).send({
+                message: "No Found"
+            });
+        }
+        return res.status(200).send({
+            message: "Deleted success"
+        });
+    }else{
+        return res.status(401).send({
+            message: "Please delete relevant session "
+        });
+    }
 
 }
 

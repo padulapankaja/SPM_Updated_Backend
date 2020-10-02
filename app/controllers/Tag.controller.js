@@ -1,6 +1,7 @@
 
 //import Lecturer
 const Tag = require('../models/Tag.model');
+const Session = require('../models/sessions.model');
 
 
 
@@ -89,25 +90,23 @@ exports.delete = async (req, res) => {
         return;
     }
     
-    Tag.findOneAndDelete({ _id: req.params.id })
-    .then( result => {
-
-        if (!result) {
-            throw new Error('No record found')
-        }
-
-        res.status(200).send({
-            message: "Deleted successfully"
+    const res_ = await  Tag.findOne({ _id: req.params.id })
+    if(!res_){
+        return res.status(401).send({
+            message: "Not found"
         });
-    
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-                err.message || "Some error occurred while deleting the data."
-        });
-    });   
-   
+    }
+    const tag_se = await Session.find({tag:req.params.id}).countDocuments()
+    console.log(tag_se);
+    if(tag_se == 0) {
+        const tag_se2 = await Tag.findByIdAndDelete({_id:req.params.id})
+        return res.status(200).send({
+            message: "Successfully Deleted"
+        });  
+    }
+    return  res.status(402).send({
+        message: "Please delete sessoin"
+    });
 }
 
 exports.get = async (req, res) => {

@@ -1,6 +1,7 @@
 
 //import Lecturer
 const Lecturer = require('../models/lecturer.model');
+const Session = require('../models/sessions.model');
 
 
 
@@ -37,7 +38,7 @@ exports.add_lecturer = async (req, res) => {
     });
     // Save Tutorial in the database
     try {
-        Lecturer.find({ empId: new_lecturer.empId , name: new_lecturer.name}, function (err, docs) {
+        Lecturer.find({ empId: new_lecturer.empId, name: new_lecturer.name }, function (err, docs) {
             if (docs.length == 0) {
                 //save 
                 new_lecturer.save(function (err) {
@@ -71,7 +72,7 @@ exports.edit_lecturer = async (req, res) => {
         return;
     }
 
-    const update_result = await Lecturer.findOneAndUpdate({name: req.body.name}, 
+    const update_result = await Lecturer.findOneAndUpdate({ name: req.body.name },
         { name: req.body.name, faculty: req.body.faculty, department: req.body.department, center: req.body.center, building: req.body.building, level: req.body.level, rank: req.body.rank, image: req.body.image },
         { new: true }
     ).then(result =>
@@ -90,22 +91,35 @@ exports.edit_lecturer = async (req, res) => {
 
 
 exports.delete_lecturer = async (req, res) => {
-
     console.log(req.body);
     if (req.body.empId == null || req.body.empId == undefined) {
-        return  res.status(400).send({
+        return res.status(400).send({
             message: "Content can not be empty!"
         });
     }
-    var result = await Lecturer.findOneAndDelete({empId: req.body.empId})
-    if (!result) {
-      return  res.status(400).send({
-            message: "No Found"
+    var lec_details = await Lecturer.findOne({ empId: req.body.empId })
+    var session_count = await Session.find({ lecturer: lec_details._id }).countDocuments()
+    console.log(session_count);
+    console.log(lec_details);
+    if (session_count < 1) {
+        console.log("No Sessions");
+        var result = await Lecturer.findOneAndDelete({ empId: req.body.empId })
+        if (!result) {
+            return res.status(400).send({
+                message: "No Found"
+            });
+        }
+        return res.status(200).send({
+            message: "Deleted success"
+        });
+    } else {
+        console.log("Have Sessions");
+        return res.status(402).send({
+            message: "Please delete session"
         });
     }
-    return res.status(200).send({
-        message: "Deleted success"
-    });
+
+
 
 }
 
@@ -132,7 +146,7 @@ exports.get_specific_lecturer = async (req, res) => {
     console.log(req.params);
 
     try {
-        const lecturer = await Lecturer.find({  empId: req.params.id });
+        const lecturer = await Lecturer.find({ empId: req.params.id });
         console.log(lecturer);
         return res.status(200).send({
             data: lecturer
@@ -150,7 +164,7 @@ exports.get_specific_lecturer_by_id = async (req, res) => {
     console.log(req.params);
 
     try {
-        const lecturer = await Lecturer.find({  _id : req.params.id });
+        const lecturer = await Lecturer.find({ _id: req.params.id });
         return res.status(200).send({
             data: lecturer
         })
@@ -218,7 +232,7 @@ exports.get_filtered = async (req, res) => {
     console.log(word);
 
     try {
-        const lecturer = await Lecturer.find( whe );
+        const lecturer = await Lecturer.find(whe);
         return res.status(200).send({
             data: lecturer
         })
