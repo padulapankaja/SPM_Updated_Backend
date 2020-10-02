@@ -119,7 +119,7 @@ exports.delete = async (req, res) => {
             
             const success = await Sessions.update({
                 _id: { "$in": [deleted.session_01 , deleted.session_02] }
-                },{parallel: false},{multi: true});
+                },{consecutive: false},{multi: true});
     
             return res.status(200).send({ message: 'Deleted Successfully' }); 
         }

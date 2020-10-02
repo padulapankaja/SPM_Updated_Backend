@@ -4,7 +4,7 @@ const Parallel = require('../models/parallel.model');
 const Consecutive = require('../models/conSessions.model');
 const Result = require('../models/result.model');
 const moment = require('moment'); 
-
+const Overlap = require('../models/overlap.model');
 
 exports.get_normal = (req, res) => {
 
@@ -229,7 +229,8 @@ exports.get_con = async (req, res) => {
                 return {
                     _id : item._id ,
                     session_01 : session_01, 
-                    session_02 : session_02
+                    session_02 : session_02,
+                    rooms : item.rooms
                 }
              }else{
                  return { _id : item._id , session_01 : {} , session_02 : {}}
@@ -336,5 +337,19 @@ exports.get_room_table = (req, res) => {
                 err.message || "Some error occurred while fetching the data."
         });
     });
+
+};
+
+exports.get_notoverlap = (req, res) => {
+    Overlap.find()
+        .then( data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while fetching the data."
+            });
+        });
 
 };
